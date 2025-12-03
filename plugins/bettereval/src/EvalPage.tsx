@@ -6,13 +6,7 @@ import { Codeblock } from "@vendetta/ui/components";
 const util = (window as any).bunny.metro.findByPropsLazy("inspect");
 
 const Design = findByProps("Stack", "Button");
-const {
-    Stack,
-    Button,
-    TableRowGroup,
-    TableSwitchRow,
-    TextArea
-} = Design;
+const { Stack, Button, TableRowGroup, TableSwitchRow, TextArea } = Design;
 
 export function EvalPage() {
     const [code, setCode] = React.useState("");
@@ -21,12 +15,8 @@ export function EvalPage() {
     const [result, setResult] = React.useState("undefined");
 
     return (
-        <RN.ScrollView 
-            contentContainerStyle={{padding: 16}}
-        >
-            <Stack
-                spacing={16}
-            >
+        <RN.ScrollView contentContainerStyle={{ padding: 16 }}>
+            <Stack spacing={16}>
                 <TextArea
                     onChange={(v) => setCode(v)}
                     placeholder="bunny.metro.findByProps"
@@ -46,36 +36,24 @@ export function EvalPage() {
                     />
                 </TableRowGroup>
                 <Button
-                    onPress={
-                        async function (){
-                            try {
-                                const res = (0, eval)(
-                                    `${code}//# sourceURL=BetterEval`,
-                                )
+                    onPress={async function () {
+                        try {
+                            const res = (0, eval)(
+                                `${code}//# sourceURL=BetterEval`
+                            );
 
-                                setResult(
-                                    util.inspect(
-                                        awaitResult ? await res : res,
-                                        {
-                                            depth: 2,
-                                            showHidden,
-                                        },
-                                    ),
-                                );
-                            } catch (e) {
-                                setResult(
-                                    util.inspect(
-                                        e
-                                    )
-                                );
-                            }
+                            setResult(
+                                util.inspect(awaitResult ? await res : res, {
+                                    showHidden,
+                                })
+                            );
+                        } catch (e) {
+                            setResult(util.inspect(e));
                         }
-                    }
+                    }}
                     text="Evaluate"
                 />
-                <Codeblock>
-                    {result}
-                </Codeblock>
+                <Codeblock>{result}</Codeblock>
             </Stack>
         </RN.ScrollView>
     );
