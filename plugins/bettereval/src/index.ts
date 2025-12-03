@@ -1,8 +1,10 @@
 import { plugin } from "@vendetta";
-import { registerSettingsTile } from "./settings";
-import { EvalPage } from "./EvalPage";
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { manifest } from "@vendetta/plugin";
+import { registerSettingsTile } from "./settings";
+import { EvalPage } from "./EvalPage";
+
+import { patchInspect } from "./fixes";
 
 const patches: (() => void)[] = [];
 
@@ -16,6 +18,8 @@ export default {
                 page: EvalPage,
             })
         );
+
+        patches.push(patchInspect());
     },
 
     onUnload() {
@@ -23,4 +27,4 @@ export default {
             unpatch();
         }
     },
-}
+};
