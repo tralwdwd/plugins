@@ -13,7 +13,6 @@ export function patchJumpToPresent() {
         if (original == null) return original;
 
         const children = original.props?.children;
-        logger.log(original);
 
         original.props.children = (
             <Stack>
@@ -21,7 +20,5 @@ export function patchJumpToPresent() {
                 {children}
             </Stack>
         );
-
-        logger.log(original.props.children);
     });
 }
