@@ -3,7 +3,7 @@ import { ReactNative as RN } from "@vendetta/metro/common";
 import { findByProps } from "@vendetta/metro";
 import { Codeblock } from "@vendetta/ui/components";
 
-const util = (window as any).bunny.metro.findByPropsLazy("inspect");
+const util = findByProps("inspect");
 
 const Design = findByProps("Stack", "Button");
 const { Stack, Button, TableRowGroup, TableSwitchRow, TextArea } = Design;
@@ -39,13 +39,13 @@ export function EvalPage() {
                     onPress={async function () {
                         try {
                             const res = (0, eval)(
-                                `${code}//# sourceURL=BetterEval`
+                                `${code}//# sourceURL=BetterEval`,
                             );
 
                             setResult(
                                 util.inspect(awaitResult ? await res : res, {
                                     showHidden,
-                                })
+                                }),
                             );
                         } catch (e) {
                             setResult(util.inspect(e));
