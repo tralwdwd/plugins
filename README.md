@@ -1,7 +1,7 @@
-# Vendetta Plugins Template
-This repo contains a template for creating [Vendetta](https://github.com/vendetta-mod/Vendetta) plugins.
+# Vendetta Plugins
 
-# How to install?
-Paste a plugin URL into the Plugins page of Vendetta, following a basic format of:
-
-https://`YOUR_GITHUB_USERNAME`.github.io/`REPO_NAME`/`PLUGIN_NAME`
+# Plugins
+|Name|Description|Source|Installation|
+|----|-----------|------|------------|
+|JumpToTop|Adds a button to jump to the top of a chat or thread.|[Source](https://github.com/tralwdwd/plugins/tree/master/plugins/JumpToTop)|[JumpToTop](https://tralwdwd.github.io/plugins/JumpToTop)|
+|BetterEval|Adds an "Evaluate JavaScript" page for running JS code. More convevient than `/eval`.|[Source](https://github.com/tralwdwd/plugins/tree/master/plugins/BetterEval)| [BetterEval](https://tralwdwd.github.io/plugins/bettereval)|
