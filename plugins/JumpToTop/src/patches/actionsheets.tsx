@@ -43,6 +43,9 @@ function buildJumpToTopRow(onPress: () => void) {
     );
 }
 
+// https://docs.discord.food/resources/channel#channel-type
+const allowedChannelTypes = [0, 1, 2, 3, 5, 6, 10, 11, 12];
+
 export function patchActionSheets() {
     const patches: (() => void)[] = [];
 
@@ -67,9 +70,8 @@ export function patchActionSheets() {
 
             const channel = ret?.props?.channel;
             if (!channel) return;
-            
-            // Forums
-            if (channel.type == 15) return;
+
+            if (!(channel.type in allowedChannelTypes)) return;
 
             after("type", ret, (_, component) => {
                 const actions = findActionGroups(component);
