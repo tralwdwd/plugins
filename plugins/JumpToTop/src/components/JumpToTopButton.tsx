@@ -2,18 +2,12 @@ import { logger } from "@vendetta";
 import { findByProps, findByStoreName } from "@vendetta/metro";
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { ReactNative as RN } from "@vendetta/metro/common";
+import { jumpToTopOfCurrentChannel } from "../utils";
 
 const Design = findByProps("Stack", "Button", "Text");
 const { IconButton } = Design;
 
-const SelectedChannelStore = findByStoreName("SelectedChannelStore");
-const ChannelStore = findByStoreName("ChannelStore");
-const messageUtil = findByProps("jumpToMessage");
-
 export default function JumpToTopButton() {
-    const currentChannelId = SelectedChannelStore.getChannelId();
-    const channelDetails = ChannelStore.getChannel(currentChannelId);
-
     return (
         // Theres no arrow up icon so we flip the arrow down one.
         <RN.View
@@ -22,15 +16,7 @@ export default function JumpToTopButton() {
             }}
         >
             <IconButton
-                onPress={() => {
-                    logger.log(channelDetails);
-                    messageUtil.jumpToMessage({
-                        channelId: channelDetails.id,
-                        messageId: channelDetails.id,
-                        flash: true,
-                        jumpType: "ANIMATED",
-                    });
-                }}
+                onPress={jumpToTopOfCurrentChannel}
                 variant={"secondary"}
                 icon={getAssetIDByName("ArrowLargeDownIcon")}
             />
