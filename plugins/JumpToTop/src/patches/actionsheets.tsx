@@ -67,8 +67,9 @@ export function patchActionSheets() {
 
             const channel = ret?.props?.channel;
             if (!channel) return;
-
-            if (channel.defaultForumLayout != null) return;
+            
+            // Forums
+            if (channel.type == 15) return;
 
             after("type", ret, (_, component) => {
                 const actions = findActionGroups(component);
