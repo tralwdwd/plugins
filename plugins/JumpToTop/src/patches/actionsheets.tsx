@@ -18,6 +18,8 @@ const ChannelLongPressActionSheet = findByName(
     false,
 );
 
+const SYM_PATCHED = Symbol.for("Patched by JumpToTop");
+
 function findActionGroups(tree: any) {
     return findInReactTree(
         tree,
@@ -51,7 +53,7 @@ export function patchActionSheets() {
 
     patches.push(
         after("default", ForumPostLongPressActionSheet, ([{ thread }], ret) => {
-            if (!storage.actionSheets) return;
+            if (!storage.actionSheets || ret[SYM_PATCHED]) return;
 
             const actions = findActionGroups(ret);
             if (!actions) return;
@@ -61,12 +63,14 @@ export function patchActionSheets() {
                     jumpToTopOfForum(thread.guild_id, thread.id),
                 ),
             );
+
+            ret[SYM_PATCHED] = true;
         }),
     );
 
     patches.push(
         after("default", ChannelLongPressActionSheet, (_, ret) => {
-            if (!storage.actionSheets) return;
+            if (!storage.actionSheets || ret[SYM_PATCHED]) return;
 
             const channel = ret?.props?.channel;
             if (!channel) return;
@@ -86,6 +90,8 @@ export function patchActionSheets() {
                     ),
                 );
             });
+
+            ret[SYM_PATCHED] = true;
         }),
     );
 

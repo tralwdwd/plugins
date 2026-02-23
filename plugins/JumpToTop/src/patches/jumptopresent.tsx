@@ -11,7 +11,7 @@ const { Stack } = Design;
 
 const ChannelStore = findByStoreName("ChannelStore");
 
-const SYM_PATCHED = Symbol("Patched by JumpToTop");
+const SYM_PATCHED = Symbol.for("Patched by JumpToTop");
 
 export function patchJumpToPresent() {
     return after(
