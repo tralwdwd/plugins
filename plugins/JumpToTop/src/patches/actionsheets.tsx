@@ -1,6 +1,6 @@
 import { findByName, findByProps } from "@vendetta/metro";
 import { ReactNative as RN } from "@vendetta/metro/common";
-import { after } from "@vendetta/patcher";
+import { after } from "@lib/patcher";
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { findInReactTree } from "@vendetta/utils";
 import { jumpToTopOfDifferentChannel, jumpToTopOfForum } from "../utils";
@@ -70,26 +70,28 @@ export function patchActionSheets() {
 
     patches.push(
         after("default", ChannelLongPressActionSheet, (_, ret) => {
-            if (!storage.actionSheets || ret[SYM_PATCHED]) return;
+            if (!storage.actionSheets || ret?.[SYM_PATCHED]) return;
 
             const channel = ret?.props?.channel;
             if (!channel) return;
 
             if (!(channel.type in allowedChannelTypes)) return;
 
-            after("type", ret, (_, component) => {
-                const actions = findActionGroups(component);
-                if (!actions) return;
+            patches.push(
+                after("type", ret, (_, component) => {
+                    const actions = findActionGroups(component);
+                    if (!actions) return;
 
-                actions.unshift(
-                    buildJumpToTopRow(() =>
-                        jumpToTopOfDifferentChannel(
-                            channel.guild_id ?? "@me",
-                            channel.id,
+                    actions.unshift(
+                        buildJumpToTopRow(() =>
+                            jumpToTopOfDifferentChannel(
+                                channel.guild_id ?? "@me",
+                                channel.id,
+                            ),
                         ),
-                    ),
-                );
-            });
+                    );
+                }),
+            );
 
             ret[SYM_PATCHED] = true;
         }),
